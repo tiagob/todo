@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.1/react-with-addons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.1/JSXTransformer.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/jsx">
+      var TodoList = React.createClass({
+        render: function() {
+          var createItem = function(itemText) {
+            return <li>{itemText}</li>;
+          };
+          return <ul>{this.props.items.map(createItem)}</ul>;
+        }
+      });
+      var TodoApp = React.createClass({
+        getInitialState: function() {
+          return {items: [], text: ''};
+        },
+        onChange: function(e) {
+          this.setState({text: e.target.value});
+        },
+        handleSubmit: function(e) {
+          e.preventDefault();
+          var nextItems = this.state.items.concat([this.state.text]);
+          var nextText = '';
+          this.setState({items: nextItems, text: nextText});
+        },
+        render: function() {
+          return (
+            <div>
+              <h3>TODO</h3>
+              <TodoList items={this.state.items} />
+              <form onSubmit={this.handleSubmit}>
+                <input onChange={this.onChange} value={this.state.text} />
+                <button>{'Add #' + (this.state.items.length + 1)}</button>
+              </form>
+            </div>
+          );
+        }
+      });
+
+      React.render(<TodoApp />, document.getElementById('example'));
+    </script>
+  </body>
+</html>
